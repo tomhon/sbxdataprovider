@@ -1,4 +1,5 @@
 var restify = require('restify');
+var sqlRequest = require("./sqlRequest");
 
 var server = restify.createServer();
 server.use(restify.plugins.queryParser());
@@ -37,7 +38,7 @@ function dashboardDataStructure() {
 server.get('/', function (req, res){
     console.log("Inbound Request:" , req.query);
     res.header('Access-Control-Allow-Origin', "*");
-    var dashboardData = new dashboardDataStructure();
+    var dashboardData = sqlRequest();
     console.log( dashboardData);
     res.send(dashboardData);
 
