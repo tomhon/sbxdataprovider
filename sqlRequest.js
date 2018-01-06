@@ -70,7 +70,7 @@ module.exports = function sqlRequest (res) {
                 "Lane5FirstAtFinish": retrievedData[16],
                 "Lane6FirstAtFinish": retrievedData[17]
             };
-            res.header('Access-Control-Allow-Origin', "*");
+            res.header('Access-Control-Allow-Origin', "https://sbxdashboard.azurewebsites.net");
             res.send(responseData);
         });       
         connection.execSql(request);  
