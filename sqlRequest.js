@@ -6,7 +6,7 @@ var Request = require('tedious').Request
 var TYPES = require('tedious').TYPES;  
 
 
-module.exports = function sqlRequest (logEntry) {
+module.exports = function sqlRequest (res) {
     console.log('Connecting to SQL');
 
     //initialize SQL connection
@@ -21,7 +21,7 @@ module.exports = function sqlRequest (logEntry) {
         } else {
             //if successful execute insert
             console.log("Connected to SQL"); 
-            sqlRequestString = createSQLRequest(logEntry);
+            sqlRequestString = createSQLRequest();
             console.log(sqlRequestString);
             executeSQLRequest(sqlRequestString);
         }
@@ -48,7 +48,30 @@ module.exports = function sqlRequest (logEntry) {
                 } 
             
             }); 
-            console.log(retrievedData);  
+            console.log(retrievedData);
+
+            var responseData = {
+                "Lane1FirstAtHole": retrievedData[0],
+                "Lane2FirstAtHole": retrievedData[1],
+                "Lane3FirstAtHole": retrievedData[2],
+                "Lane4FirstAtHole": retrievedData[3],
+                "Lane5FirstAtHole": retrievedData[4],
+                "Lane6FirstAtHole": retrievedData[5],
+                "Lane1FirstAtSplit": retrievedData[6],
+                "Lane2FirstAtSplit": retrievedData[7],
+                "Lane3FirstAtSplit": retrievedData[8],
+                "Lane4FirstAtSplit": retrievedData[9],
+                "Lane5FirstAtSplit": retrievedData[10],
+                "Lane6FirstAtSplit": retrievedData[11],
+                "Lane1FirstAtFinish": retrievedData[12],
+                "Lane2FirstAtFinish": retrievedData[13],
+                "Lane3FirstAtFinish": retrievedData[14],
+                "Lane4FirstAtFinish": retrievedData[15],
+                "Lane5FirstAtFinish": retrievedData[16],
+                "Lane6FirstAtFinish": retrievedData[17]
+            };
+            res.header('Access-Control-Allow-Origin', "*");
+            res.send(responseData);
         });       
         connection.execSql(request);  
     }
