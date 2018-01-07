@@ -31,7 +31,7 @@ module.exports = function sqlRequest (req, res) {
 
     function executeSQLRequest(sqlString) {
         console.log('Executing SQL Request');
-
+        var retrievedData = [];
         request = new Request(sqlString, function(err) {  
                 if (err) {  
                 console.log(err);
@@ -41,7 +41,6 @@ module.exports = function sqlRequest (req, res) {
                 }  
             });  
         request.on('row', function(columns) {  
-            var retrievedData = [];
             columns.forEach(function(column) {  
                 if (column.value === null) {  
                 console.log('NULL');  
@@ -53,6 +52,11 @@ module.exports = function sqlRequest (req, res) {
             }); 
             console.log(retrievedData);
 
+
+
+        });     
+        
+        request.on('requestCompleted', function () { 
             var responseData = {
                 "Lane1FirstAtHole": retrievedData[0],
                 "Lane2FirstAtHole": retrievedData[1],
@@ -73,9 +77,10 @@ module.exports = function sqlRequest (req, res) {
                 "Lane5FirstAtFinish": retrievedData[16],
                 "Lane6FirstAtFinish": retrievedData[17]
             };
+            console.log('request Completed');
             res.header('Access-Control-Allow-Origin', "*");
             res.send(responseData);
-        });       
+        });
         connection.execSql(request);  
     }
 
