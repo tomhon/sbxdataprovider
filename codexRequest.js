@@ -51,6 +51,7 @@ module.exports = function codexRequest (res) {
 
         request.on('requestCompleted', function () { 
             console.log('request Completed');
+            res.header('Access-Control-Allow-Origin', "*");
             res.send(retrievedData);
         });
 
