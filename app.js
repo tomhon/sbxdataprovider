@@ -11,5 +11,6 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 server.get('/', function (req, res){
     console.log("Inbound Request:" , req.query);
     // res.header('Access-Control-Allow-Origin', "*");
-    sqlRequest(req, res);
+    // sqlRequest(req, res);
+    res.send('Test Response');
 });
