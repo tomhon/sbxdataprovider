@@ -6,7 +6,7 @@ var Request = require('tedious').Request
 var TYPES = require('tedious').TYPES;  
 
 
-module.exports = function sqlRequest (res) {
+module.exports = function sqlRequest (req, res) {
     console.log('Connecting to SQL');
 
     //initialize SQL connection
@@ -21,7 +21,7 @@ module.exports = function sqlRequest (res) {
         } else {
             //if successful execute insert
             console.log("Connected to SQL"); 
-            sqlRequestString = createSQLRequest();
+            sqlRequestString = createSQLRequest(req.query.raceCodex, req.query.phaseID);
             console.log(sqlRequestString);
             executeSQLRequest(sqlRequestString);
         }
@@ -80,13 +80,25 @@ module.exports = function sqlRequest (res) {
 };  
 
 
-function createSQLRequest(userData) {
+function createSQLRequest(raceCodex, phaseID) {
     var date = new Date();
     sqlRequestString = "Select ";
-    sqlRequestString += "SUM(dataproviderTest.Lane1FirstAtHole), SUM(dataproviderTest.Lane2FirstAtHole), SUM(dataproviderTest.Lane3FirstAtHole), SUM(dataproviderTest.Lane4FirstAtHole), SUM(dataproviderTest.Lane5FirstAtHole), SUM(dataproviderTest.Lane6FirstAtHole),";
-    sqlRequestString += "SUM(dataproviderTest.Lane1FirstAtSplit), SUM(dataproviderTest.Lane2FirstAtSplit), SUM(dataproviderTest.Lane3FirstAtSplit), SUM(dataproviderTest.Lane4FirstAtSplit), SUM(dataproviderTest.Lane5FirstAtSplit), SUM(dataproviderTest.Lane6FirstAtSplit),";
-    sqlRequestString += "SUM(dataproviderTest.Lane1FirstAtFinish), SUM(dataproviderTest.Lane2FirstAtFinish), SUM(dataproviderTest.Lane3FirstAtFinish), SUM(dataproviderTest.Lane4FirstAtFinish), SUM(dataproviderTest.Lane5FirstAtFinish), SUM(dataproviderTest.Lane6FirstAtFinish)";
+    sqlRequestString += "COUNT(TestTable.Lane1FirstAtHole), COUNT(TestTable.Lane2FirstAtHole), COUNT(TestTable.Lane3FirstAtHole), COUNT(TestTable.Lane4FirstAtHole), COUNT(TestTable.Lane5FirstAtHole), COUNT(TestTable.Lane6FirstAtHole),";
+    sqlRequestString += "COUNT(TestTable.Lane1FirstAtSplit), COUNT(TestTable.Lane2FirstAtSplit), COUNT(TestTable.Lane3FirstAtSplit), COUNT(TestTable.Lane4FirstAtSplit), COUNT(TestTable.Lane5FirstAtSplit), COUNT(TestTable.Lane6FirstAtSplit),";
+    sqlRequestString += "COUNT(TestTable.Lane1FirstAtFinish), COUNT(TestTable.Lane2FirstAtFinish), COUNT(TestTable.Lane3FirstAtFinish), COUNT(TestTable.Lane4FirstAtFinish), COUNT(TestTable.Lane5FirstAtFinish), COUNT(TestTable.Lane6FirstAtFinish)";
     
-    sqlRequestString += "From dataproviderTest";
+    sqlRequestString += " From TestTable";
+    if (raceCodex) {
+            if (phaseID) {
+                sqlRequestString += " Where raceCodex = '" + raceCodex + "' AND phaseID = '" + phaseID + "'";
+                } else {
+                sqlRequestString += " Where raceCodex = '" + raceCodex + "'";
+                } 
+        } else {
+            if (phaseID) {
+                sqlRequestString += " Where phaseID = '" + phaseID + "'";
+        } 
+    }
+
     return sqlRequestString;
 }
