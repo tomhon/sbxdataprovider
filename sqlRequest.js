@@ -8,7 +8,6 @@ var TYPES = require('tedious').TYPES;
 
 module.exports = function sqlRequest (req, res) {
     console.log('Connecting to SQL');
-    res.send('Test Response from sqlRequest');
 
     //initialize SQL connection
     
@@ -22,6 +21,7 @@ module.exports = function sqlRequest (req, res) {
         } else {
             //if successful execute insert
             console.log("Connected to SQL"); 
+            res.send("Connected to SQL"); 
             sqlRequestString = createSQLRequest(req.query.raceCodex, req.query.phaseID);
             console.log(sqlRequestString);
             // executeSQLRequest(sqlRequestString);
