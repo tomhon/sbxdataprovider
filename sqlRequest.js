@@ -24,7 +24,7 @@ module.exports = function sqlRequest (req, res) {
  
             sqlRequestString = createSQLRequest(req.query.raceCodex, req.query.phaseID);
             console.log(sqlRequestString);
-            res.send(sqlRequestString);
+
             executeSQLRequest(sqlRequestString);
         }
     }); 
@@ -40,7 +40,8 @@ module.exports = function sqlRequest (req, res) {
 
                 }  
             });  
-        request.on('row', function(columns) {  
+        request.on('row', function(columns) { 
+            res.send('SQL Request Returned'); 
             var retrievedData = [];
             columns.forEach(function(column) {  
                 if (column.value === null) {  
