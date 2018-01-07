@@ -21,23 +21,24 @@ module.exports = function sqlRequest (req, res) {
         } else {
             //if successful execute insert
             console.log("Connected to SQL"); 
-            res.send("Connected to SQL"); 
+ 
             sqlRequestString = createSQLRequest(req.query.raceCodex, req.query.phaseID);
             console.log(sqlRequestString);
-            // executeSQLRequest(sqlRequestString);
+            executeSQLRequest(sqlRequestString);
         }
     }); 
 
     function executeSQLRequest(sqlString) {
         console.log('Executing SQL Request');
-        request = new Request(sqlString, function(err) {  
-                if (err) {  
-                console.log(err);
-                console.log(sqlString);
+        res.send("Executing SQL Request");
+        // request = new Request(sqlString, function(err) {  
+        //         if (err) {  
+        //         console.log(err);
+        //         console.log(sqlString);
 
 
-                }  
-            });  
+        //         }  
+        //     });  
         request.on('row', function(columns) {  
             var retrievedData = [];
             columns.forEach(function(column) {  
