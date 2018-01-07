@@ -24,21 +24,22 @@ module.exports = function sqlRequest (req, res) {
  
             sqlRequestString = createSQLRequest(req.query.raceCodex, req.query.phaseID);
             console.log(sqlRequestString);
+            res.send(sqlRequestString);
             executeSQLRequest(sqlRequestString);
         }
     }); 
 
     function executeSQLRequest(sqlString) {
         console.log('Executing SQL Request');
-        res.send("Executing SQL Request");
-        // request = new Request(sqlString, function(err) {  
-        //         if (err) {  
-        //         console.log(err);
-        //         console.log(sqlString);
+
+        request = new Request(sqlString, function(err) {  
+                if (err) {  
+                console.log(err);
+                console.log(sqlString);
 
 
-        //         }  
-        //     });  
+                }  
+            });  
         request.on('row', function(columns) {  
             var retrievedData = [];
             columns.forEach(function(column) {  
