@@ -36,13 +36,12 @@ module.exports = function sqlRequest (req, res) {
                 if (err) {  
                 console.log(err);
                 console.log(sqlString);
-                res.send('SQL Request Error:', err);
+                res.send(sqlString, 'SQL Request Error:', err);
 
 
                 }  
             });  
         request.on('row', function(columns) { 
-            res.send('SQL Request Returned'); 
             var retrievedData = [];
             columns.forEach(function(column) {  
                 if (column.value === null) {  
