@@ -90,7 +90,7 @@ function createSQLRequest(raceCodex, phaseID) {
     sqlRequestString += "COUNT(TestTable.Lane1FirstAtSplit), COUNT(TestTable.Lane2FirstAtSplit), COUNT(TestTable.Lane3FirstAtSplit), COUNT(TestTable.Lane4FirstAtSplit), COUNT(TestTable.Lane5FirstAtSplit), COUNT(TestTable.Lane6FirstAtSplit),";
     sqlRequestString += "COUNT(TestTable.Lane1FirstAtFinish), COUNT(TestTable.Lane2FirstAtFinish), COUNT(TestTable.Lane3FirstAtFinish), COUNT(TestTable.Lane4FirstAtFinish), COUNT(TestTable.Lane5FirstAtFinish), COUNT(TestTable.Lane6FirstAtFinish)";
     
-    sqlRequestString += " From TestTable";
+    sqlRequestString += " From dbo.TestTable";
     if (raceCodex) {
             if (phaseID) {
                 sqlRequestString += " Where raceCodex = '" + raceCodex + "' AND phaseID = '" + phaseID + "'";
