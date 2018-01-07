@@ -36,7 +36,7 @@ module.exports = function sqlRequest (req, res) {
                 if (err) {  
                 console.log(err);
                 console.log(sqlString);
-                res.send(sqlString + 'SQL request error' + err);
+                res.send('SQL request error' + err);
 
                 }  
             });  
